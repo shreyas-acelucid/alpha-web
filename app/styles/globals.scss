@@ -8,6 +8,13 @@
   --color-light: #ededed;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-dark: #ededed;
+    --color-light: #0a0a0a;
+  }
+}
+
 body {
   color: var(--color-dark);
   background: var(--color-light);
@@ -36,11 +43,6 @@ a {
 :before {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-}
-
-img {
-  width: 100%;
-  height: auto;
 }
 
 h1,

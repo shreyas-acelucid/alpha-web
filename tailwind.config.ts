@@ -17,10 +17,6 @@ export default {
       "3xl": "1536px",
     },
     extend: {
-      fontFamily: {
-        geistsans: ["var(--font-geist-sans)"],
-        geistmono: ["var(--font-geist-mono)"],
-      },
       colors: {
         light: "var(--color-light)",
         dark: "var(--color-dark)",

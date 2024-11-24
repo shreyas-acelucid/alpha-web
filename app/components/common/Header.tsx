@@ -177,9 +177,12 @@ const Header: React.FC = () => {
             </Box>
             <Box sx={{ marginBottom: "6%" }} className="font-montserrat">
               <Divider />
-              <Box className="pt-4 pe-16 text-right">
+              <Box className="pt-4 pe-16 justify-end flex flex-row gap-4">
                 <Link href="/login">
-                  <Button className="rounded-full">Sign In</Button>
+                  <Button className="rounded-full" onClick={handleDrawerToggle}>Sign In</Button>
+                </Link>
+                <Link href="/dietitian-login">
+                  <Button className="rounded-full" onClick={handleDrawerToggle}>Admin</Button>
                 </Link>
               </Box>
             </Box>

@@ -1,9 +1,8 @@
 "use client";
 import { NextPage } from "next";
-import Link from "next/link";
-import InputWrapper from "../components/common/InputWrapper";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import InputWrapper from "../components/common/InputWrapper";
 
 const LogIn: NextPage = () => {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -48,7 +47,7 @@ const LogIn: NextPage = () => {
         <div className="w-full bg-primary-200 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="font-bold leading-tight tracking-tight text-dark text-2xl">
-              Sign in to your account
+              Sign in as a dietitian
             </h1>
             <form onSubmit={handleSubmit}>
               <InputWrapper
@@ -89,7 +88,6 @@ const LogIn: NextPage = () => {
                 </Button>
               </div>
             </form>
-            <p className="text-xl text-dark font-extralight">New user? <Link href='/signup' className="text-primary-600">Sign up here</Link></p>
           </div>
         </div>
       </div>

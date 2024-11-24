@@ -82,7 +82,7 @@ const LogIn: NextPage = () => {
               </InputWrapper>
               <div className="text-center">
                 <Button
-                  className="w-full text-xl"                 
+                  className="!w-full"                 
                   type="submit"                 
                 >
                   Sign In

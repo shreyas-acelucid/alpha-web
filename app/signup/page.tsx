@@ -253,7 +253,7 @@ const SignUp: NextPage = () => {
                     />
                     <Button
                       onClick={addAllergen}
-                      className="mt-2 me-2 rounded-full"
+                      className="!mt-2 !me-2 !rounded-full"
                     >
                       Add
                     </Button>
@@ -277,7 +277,7 @@ const SignUp: NextPage = () => {
                     />
                     <Button
                       onClick={addDisorder}
-                      className="mt-2 me-2 rounded-full"
+                      className="!mt-2 !me-2 !rounded-full"
                     >
                       Add
                     </Button>
@@ -299,7 +299,7 @@ const SignUp: NextPage = () => {
                     />
                     <Button
                       onClick={addCondition}
-                      className="mt-2 me-2 rounded-full"
+                      className="!mt-2 !me-2 !rounded-full"
                     >
                       Add
                     </Button>
@@ -447,7 +447,7 @@ const SignUp: NextPage = () => {
                     />
                     <Button
                       onClick={addActivity}
-                      className="mt-2 me-2 rounded-full"
+                      className="!mt-2 !me-2 !rounded-full"
                     >
                       Add
                     </Button>
@@ -455,7 +455,7 @@ const SignUp: NextPage = () => {
                 </div>
               </div>
               <div className="text-center">
-                <Button className="w-full text-xl" type="submit">
+                <Button className="!w-full" type="submit">
                   Sign Up
                 </Button>
               </div>

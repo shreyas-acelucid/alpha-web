@@ -109,10 +109,10 @@ const Header: React.FC = () => {
           <Box className="flex flex-row gap-4 items-center">
             <Avatar sx={{ width: "36px", height: "36px" }}></Avatar>
             <Link href="/login">
-              <Button className="rounded-full">Sign In</Button>
+              <Button className="!rounded-full">Sign In</Button>
             </Link>
             <Link href="/dietitian-login">
-              <Button className="rounded-full">Admin</Button>
+              <Button className="!rounded-full">Admin</Button>
             </Link>
           </Box>
         </Toolbar>
@@ -169,20 +169,20 @@ const Header: React.FC = () => {
                         sx={{ fontSize: "16px" }}
                         primary={item}
                       />
-                      <ChevronRightIcon fontSize={"large"} />
+                      <ChevronRightIcon/>
                     </ListItemButton>
                   </ListItem>
                 ))}
               </List>
             </Box>
-            <Box sx={{ marginBottom: "6%" }} className="font-montserrat">
+            <Box className='mb-4'>
               <Divider />
               <Box className="pt-4 pe-16 justify-end flex flex-row gap-4">
                 <Link href="/login">
-                  <Button className="rounded-full" onClick={handleDrawerToggle}>Sign In</Button>
+                  <Button className="!rounded-full" onClick={handleDrawerToggle}>Sign In</Button>
                 </Link>
                 <Link href="/dietitian-login">
-                  <Button className="rounded-full" onClick={handleDrawerToggle}>Admin</Button>
+                  <Button className="!rounded-full" onClick={handleDrawerToggle}>Admin</Button>
                 </Link>
               </Box>
             </Box>

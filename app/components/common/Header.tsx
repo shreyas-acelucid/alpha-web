@@ -24,7 +24,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { getRole, getToken, logout } from "@/app/utils/helpers";
 import { jwtDecode } from "jwt-decode";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import GradingIcon from "@mui/icons-material/Grading";
@@ -35,16 +35,17 @@ const Header: React.FC = () => {
   const role = getRole();
   const currentTime = Math.floor(Date.now() / 1000);
   const path = usePathname();
+  const router = useRouter();
 
-  // const userPaths = ["/dashboard", "/customer"];
-  // const isUser = userPaths.some((path) =>
-  //   router.pathname.includes(path)
-  // );
+  const userPaths = ["/dashboard", "/progress", "/feedback", "rewards"];
+  const isUserPath = userPaths.some((currentpath) =>
+    path.includes(currentpath)
+  );
 
-  // const dietPaths = ["/dashboard", "/customer"];
-  // const isDiet = dietPaths.some((path) =>
-  //   router.pathname.includes(path)
-  // );
+  const adminPaths = ["/users", "/items", "/exercises"];
+  const isAdminPath = adminPaths.some((currentpath) =>
+    path.includes(currentpath)
+  );
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -56,6 +57,15 @@ const Header: React.FC = () => {
       if (decoded.exp && currentTime > decoded.exp) {
         logout();
       }
+    }
+    if ((isUserPath || isAdminPath) && !token) {
+      logout();
+    }
+    if (isUserPath && role !== "user") {
+      router.push("/");
+    }
+    if (isAdminPath && role !== "diet") {
+      router.push("/");
     }
   }, [path]);
 
@@ -152,99 +162,110 @@ const Header: React.FC = () => {
               {role && role === "diet" && (
                 <List sx={{ padding: "6px 0 6px" }} className="font-medium">
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <HomeIcon sx={{ color: "var(--color-primary-700)" }} />
-                      <ListItemText disableTypography primary={"Home"} />
-                    </ListItemButton>
+                    <Link href="/" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <HomeIcon sx={{ color: "var(--color-primary-700)" }} />
+                        <ListItemText disableTypography primary={"Home"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <GroupIcon sx={{ color: "var(--color-primary-700)" }} />
-                      <ListItemText disableTypography primary={"Users"} />
-                    </ListItemButton>
+                    <Link href="/users" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <GroupIcon sx={{ color: "var(--color-primary-700)" }} />
+                        <ListItemText disableTypography primary={"Users"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <CategoryIcon
-                        sx={{ color: "var(--color-primary-700)" }}
-                      />
-                      <ListItemText disableTypography primary={"Items"} />
-                    </ListItemButton>
+                    <Link href="/items" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <CategoryIcon
+                          sx={{ color: "var(--color-primary-700)" }}
+                        />
+                        <ListItemText disableTypography primary={"Items"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <FitnessCenterIcon
-                        sx={{ color: "var(--color-primary-700)" }}
-                      />
-                      <ListItemText disableTypography primary={"Exercises"} />
-                    </ListItemButton>
+                    <Link href="/exercises" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <FitnessCenterIcon
+                          sx={{ color: "var(--color-primary-700)" }}
+                        />
+                        <ListItemText disableTypography primary={"Exercises"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                 </List>
               )}
               {role && role === "user" && (
                 <List sx={{ padding: "6px 0 6px" }} className="font-medium">
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <HomeIcon sx={{ color: "var(--color-primary-700)" }} />
-                      <ListItemText disableTypography primary={"Home"} />
-                    </ListItemButton>
+                    <Link href="/" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <HomeIcon sx={{ color: "var(--color-primary-700)" }} />
+                        <ListItemText disableTypography primary={"Home"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <DashboardIcon
-                        sx={{ color: "var(--color-primary-700)" }}
-                      />
-                      <ListItemText disableTypography primary={"Dashboard"} />
-                    </ListItemButton>
+                    <Link href="/dashboard" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <DashboardIcon
+                          sx={{ color: "var(--color-primary-700)" }}
+                        />
+                        <ListItemText disableTypography primary={"Dashboard"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <EventRepeatIcon
-                        sx={{ color: "var(--color-primary-700)" }}
-                      />
-                      <ListItemText disableTypography primary={"Progress"} />
-                    </ListItemButton>
+                    <Link href="/progress" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <EventRepeatIcon
+                          sx={{ color: "var(--color-primary-700)" }}
+                        />
+                        <ListItemText disableTypography primary={"Progress"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <GradingIcon sx={{ color: "var(--color-primary-700)" }} />
-                      <ListItemText disableTypography primary={"Feedback"} />
-                    </ListItemButton>
+                    <Link href="/feedback" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <GradingIcon
+                          sx={{ color: "var(--color-primary-700)" }}
+                        />
+                        <ListItemText disableTypography primary={"Feedback"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                   <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <ListItemButton
-                      sx={{ textAlign: "left", padding: "0 4rem" }}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <EmojiEventsIcon
-                        sx={{ color: "var(--color-primary-700)" }}
-                      />
-                      <ListItemText disableTypography primary={"Rewards"} />
-                    </ListItemButton>
+                    <Link href="/rewards" className="w-full">
+                      <ListItemButton
+                        sx={{ textAlign: "left", padding: "0 4rem" }}
+                      >
+                        <EmojiEventsIcon
+                          sx={{ color: "var(--color-primary-700)" }}
+                        />
+                        <ListItemText disableTypography primary={"Rewards"} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                 </List>
               )}
@@ -272,10 +293,7 @@ const Header: React.FC = () => {
                     </Link>
                   </>
                 ) : (
-                  <Button
-                    className="!rounded-full"
-                    onClick={logout}
-                  >
+                  <Button className="!rounded-full" onClick={logout}>
                     Log Out
                   </Button>
                 )}

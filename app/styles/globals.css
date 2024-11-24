@@ -86,7 +86,6 @@ p {
     }
   }
   sub.field-explain {
-    // display: none;
     margin-top: 5px;
     font: 500 13px/1  Arial, sans-serif;;
     color: grey;
@@ -112,9 +111,6 @@ p {
     &:focus {
       border: 2px solid var(--color-dark);
       box-shadow: none;
-      // + sub.field-explain {
-      //   display: block;
-      // }
     }
     &[type="checkbox"] {
       width: 30px;

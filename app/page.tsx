@@ -1,5 +1,4 @@
 "use client";
-import { Margin } from "@mui/icons-material";
 import { NextPage } from "next";
 import * as React from "react";
 
@@ -14,13 +13,13 @@ const Index: NextPage = () => {
         <p className="text-gray-600 mb-4" style={{ textAlign: "justify" }}>
           Your ultimate companion for a healthier, happier you. At Alpha
           Nutrition, we believe that achieving your health and wellness goals
-          should be simple, personalized, and empowering. That’s why we’ve
+          should be simple, personalized, and empowering. That&apos;s why we&apos;ve
           designed an app that adapts to your unique needs, offering tailored
           meal plans, expert nutrition insights, and AI-driven
           recommendations to help you thrive.
         </p>
         <p className="text-gray-600" style={{ textAlign: "justify" }}>
-          Whether you're aiming to lose weight, build muscle, manage a health
+          Whether you&apos;re aiming to lose weight, build muscle, manage a health
           condition, or simply adopt a balanced lifestyle, our app provides
           the tools and guidance you need. Track your calories, monitor your
           macros, and gain a deeper understanding of your nutrient intake—all
@@ -40,7 +39,7 @@ const Index: NextPage = () => {
     <div className="flex flex-col md:flex-row-reverse items-center gap-8">
       <div className="flex-1 text-center md:text-left">
         <p className="text-gray-600 mb-4" style={{ textAlign: "justify" }}>
-          But Alpha Nutrition is more than just a tool—it’s a supportive
+          But Alpha Nutrition is more than just a tool—it&apos;s a supportive
           community. Connect with like-minded individuals who share your
           journey, celebrate milestones, and stay motivated every step of the
           way. With science-backed solutions and an easy-to-use interface,

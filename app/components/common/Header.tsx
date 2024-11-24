@@ -83,7 +83,7 @@ const Header: React.FC = () => {
             onClick={handleDrawerToggle}
             sx={{ mr: 1, color: "#000" }}
           >
-            <MenuIcon fontSize={"large"} />
+            <MenuIcon />
           </IconButton>
           <Typography
             // variant="h6"
@@ -148,7 +148,7 @@ const Header: React.FC = () => {
                   onClick={handleDrawerToggle}
                   sx={{ ml: "2rem", mt: "0.5rem", color: "#000" }}
                 >
-                  <CloseIcon fontSize={"large"} />
+                  <CloseIcon />
                 </IconButton>
               </Box>
               <List

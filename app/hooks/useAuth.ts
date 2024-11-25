@@ -1,6 +1,5 @@
 import { IFetchAPICall } from "../utils/helpers";
 
-
 const http = async (path: string, options?: IFetchAPICall) => {
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
   const url = `${API_BASE_URL}/${path.replace(/^\/+/, "")}`;
@@ -25,6 +24,20 @@ export const loginDietitian = async (data: {
   password: string;
 }) => {
   return http(`/dietitian/dietitianLogin`, {
+    method: "POST",
+    data,
+  }) as Promise<any>;
+};
+
+export const loginUser = async (data: { email: string; password: string }) => {
+  return http(`/users/userLogin`, {
+    method: "POST",
+    data,
+  }) as Promise<any>;
+};
+
+export const signUpUser = async (data: any) => {
+  return http(`/users/userSignup`, {
     method: "POST",
     data,
   }) as Promise<any>;

@@ -28,7 +28,7 @@ const LogIn: NextPage = () => {
       const tokenResponse = await loginDietitian({ email, password });
       setToken(tokenResponse);
       setRole('diet');
-      router.push("/dashboard");
+      router.push("/users");
     } catch (error) {
       toast.error("Login failed");
     }

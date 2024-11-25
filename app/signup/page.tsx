@@ -9,9 +9,14 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { signUpUser } from "../hooks/useAuth";
 
 const SignUp: NextPage = () => {
+  const router = useRouter();
   const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
+  const [dobErrorMessage, setDobErrorMessage] = useState<string>("");
   const [isPregnant, setIsPregnant] = useState<boolean>(false);
   const [gender, setGender] = useState<string>("");
   const [dietary, setDietary] = useState<string>("");
@@ -21,6 +26,68 @@ const SignUp: NextPage = () => {
   const [conditions, setConditions] = useState<string[]>([]);
   const [occupation, setOccupation] = useState<string>("");
   const [activities, setActivities] = useState<string[]>([]);
+  const [name, setName] = useState<string>("");
+  const [dob, setDob] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [weight, setWeight] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+  const [bmi, setBmi] = useState<number>(0);
+  const [sleepDuration, setSleepDuration] = useState<number>(0);
+  const [dailyActivityDuration, setDailyActivityDuration] =
+    useState<string>("");
+
+  const validateInputs = () => {
+    const email = document.getElementById("email") as HTMLInputElement;
+    const dob = document.getElementById("dob") as HTMLInputElement;
+
+    let isValid = true;
+    const dobRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+      setEmailErrorMessage("Please enter a valid email address.");
+      isValid = false;
+    } else if (!dob.value || !dobRegex.test(dob.value)) {
+      setDobErrorMessage(
+        "Please enter a valid date of birth in YYYY-MM-DD format."
+      );
+      isValid = false;
+    } else {
+      setEmailErrorMessage("");
+    }
+    return isValid;
+  };
+
+  const signup = async () => {
+    try {
+      const userResponse = await signUpUser({
+        name,
+        dob,
+        phone,
+        email,
+        password,
+        gender,
+        pregnancy: isPregnant,
+        goal: goalType,
+        allergens,
+        dietary,
+        disorders,
+        common_conditions: conditions,
+        weight,
+        height,
+        bmi,
+        sleep_duration: sleepDuration,
+        occupation,
+        daily_activity_duration: dailyActivityDuration,
+        physical_activities_preferred: activities,
+        created_by: "user",
+        updated_by: "user",
+      });
+      if (userResponse) router.push("/login");
+    } catch (error) {
+      toast.error("Sign up failed");
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,26 +95,10 @@ const SignUp: NextPage = () => {
     if (!isValid) {
       return;
     } else {
-      const data = new FormData(event.currentTarget);
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-        data,
-      });
+      signup();
     }
   };
 
-  const validateInputs = () => {
-    const email = document.getElementById("email") as HTMLInputElement;
-    let isValid = true;
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailErrorMessage("Please enter a valid email address.");
-      isValid = false;
-    } else {
-      setEmailErrorMessage("");
-    }
-    return isValid;
-  };
   const addAllergen = () => {
     const allergen = document.getElementById("allergens") as HTMLInputElement;
     if (allergen.value === "") return;
@@ -105,6 +156,8 @@ const SignUp: NextPage = () => {
                       placeholder="Enter your name"
                       inputMode="text"
                       maxLength={50}
+                      value={name}
+                      onChange={(e) => setName(e.target.value.trimStart())}
                     />
                   </InputWrapper>
                 </div>
@@ -120,6 +173,8 @@ const SignUp: NextPage = () => {
                       inputMode="text"
                       minLength={10}
                       maxLength={10}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value.trimStart())}
                     />
                   </InputWrapper>
                 </div>
@@ -140,6 +195,8 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your email address"
                       inputMode="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value.trimStart())}
                     />
                   </InputWrapper>
                 </div>
@@ -153,7 +210,8 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your password"
                       minLength={3}
-                      // onChange={(e) => setFullName(e.target.value.trimStart())}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value.trimStart())}
                       maxLength={16}
                     />
                   </InputWrapper>
@@ -341,6 +399,8 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your weight"
                       inputMode="numeric"
+                      value={weight}
+                      onChange={(e) => setWeight(Number(e.target.value))}
                     />
                   </InputWrapper>
                 </div>
@@ -356,6 +416,8 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your height"
                       inputMode="numeric"
+                      value={height}
+                      onChange={(e) => setHeight(Number(e.target.value))}
                     />
                   </InputWrapper>
                 </div>
@@ -369,6 +431,8 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your BMI"
                       inputMode="numeric"
+                      value={bmi}
+                      onChange={(e) => setBmi(Number(e.target.value))}
                     />
                   </InputWrapper>
                 </div>
@@ -388,6 +452,8 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your sleeping duration"
                       inputMode="numeric"
+                      value={sleepDuration}
+                      onChange={(e) => setSleepDuration(Number(e.target.value))}
                     />
                   </InputWrapper>
                 </div>
@@ -406,29 +472,36 @@ const SignUp: NextPage = () => {
                       placeholder="Enter your daily activity duration"
                       inputMode="text"
                       maxLength={50}
+                      value={dailyActivityDuration}
+                      onChange={(e) =>
+                        setDailyActivityDuration(e.target.value.trimStart())
+                      }
                     />
                   </InputWrapper>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-x-5">
                 <div className="flex-1">
-                  <InputWrapper id="occupation" label="Occupation" required>
-                    <select
-                      id="occupation"
-                      name="occupation"
+                  <InputWrapper
+                    id="dob"
+                    label="Date of Birth"
+                    required
+                    explain="YYYY-MM-DD"
+                    error={dobErrorMessage}
+                  >
+                    <input
+                      type="text"
+                      id="dob"
+                      name="dob"
+                      autoComplete="off"
                       required
-                      value={occupation}
-                      onChange={(e) => setOccupation(e.target.value)}
-                    >
-                      <option value="" disabled hidden>
-                        Select your occupation
-                      </option>
-                      <option value="unemployed">Unemployed</option>
-                      <option value="studying">Studying</option>
-                      <option value="employee">Employee</option>
-                      <option value="entrepreneur">Entrepreneur</option>
-                      <option value="other">Other</option>
-                    </select>
+                      placeholder="Enter your DoB"
+                      inputMode="text"
+                      maxLength={10}
+                      minLength={10}
+                      value={dob}
+                      onChange={(e) => setDob(e.target.value.trimStart())}
+                    />
                   </InputWrapper>
                 </div>
                 <div className="flex-1">
@@ -453,6 +526,29 @@ const SignUp: NextPage = () => {
                     </Button>
                   </InputWrapper>
                 </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-x-5">
+                <div className="flex-1">
+                  <InputWrapper id="occupation" label="Occupation" required>
+                    <select
+                      id="occupation"
+                      name="occupation"
+                      required
+                      value={occupation}
+                      onChange={(e) => setOccupation(e.target.value)}
+                    >
+                      <option value="" disabled hidden>
+                        Select your occupation
+                      </option>
+                      <option value="unemployed">Unemployed</option>
+                      <option value="studying">Studying</option>
+                      <option value="employee">Employee</option>
+                      <option value="entrepreneur">Entrepreneur</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </InputWrapper>
+                </div>
+                <div className="flex-1"></div>
               </div>
               <div className="text-center">
                 <Button className="!w-full" type="submit">

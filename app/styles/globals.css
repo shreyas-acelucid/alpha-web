@@ -150,3 +150,6 @@ p {
   padding-left: 2rem !important;
   gap: 1.5rem !important;
 }
+nextjs-portal {
+  display: none;
+}

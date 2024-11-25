@@ -1,4 +1,4 @@
-import {getToken, IFetchAPICall } from "../utils/helpers";
+import { getToken, IFetchAPICall } from "../utils/helpers";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -9,7 +9,7 @@ const useAPI = () => {
     try {
       const raw = await fetch(url, {
         headers: {
-          dietitionToken: token,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         method: options?.method ?? "GET",
@@ -26,12 +26,54 @@ const useAPI = () => {
     }
   };
 
-  const getItems = async () => {
-    return http("/descriptor/grouped") as Promise<any>;
+  const getUsers = async () => {
+    return http("/users/getUsers") as Promise<any>;
   };
 
+  const getUserById = async (id: string) => {
+    return http(`/users/getUserById/${id}`) as Promise<any>;
+  };
+
+  const createDietPlan = async (data: any) => {
+    return http("/dietitian/createDietPlan", {
+      method: "POST",
+      data,
+    }) as Promise<any>;
+  };
+
+  const getAllItems = async () => {
+    return http("/dietitian/getAllItems") as Promise<any>;
+  };
+
+  const createItem = async (data: any) => {
+    return http("/dietitian/createItem", {
+      method: "POST",
+      data,
+    }) as Promise<any>;
+  };
+
+  const getDietPlanbyUserId = async (data: { userId: string }) => {
+    return http("/users/getDietPlanByUserId", {
+      method: "POST",
+      data,
+    }) as Promise<any>;
+  };
+  const completeDietPlanbyUserId = async (planId: string, data: { userId: string}) => {
+    return http(`/users/updateDietPlanCompletedById/${planId}`, {
+      method: "PUT",
+      data,
+    }) as Promise<any>;
+  };
+  
+
   return {
-    getItems,
+    getUsers,
+    getUserById,
+    createDietPlan,
+    getAllItems,
+    createItem,
+    getDietPlanbyUserId,
+    completeDietPlanbyUserId
   };
 };
 

@@ -56,6 +56,7 @@ const Header: React.FC = () => {
       const decoded = jwtDecode(token);
       if (decoded.exp && currentTime > decoded.exp) {
         logout();
+        router.push("/");
       }
     }
     if ((isUserPath || isAdminPath) && !token) {
@@ -193,7 +194,7 @@ const Header: React.FC = () => {
                       </ListItemButton>
                     </Link>
                   </ListItem>
-                  <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
+                  {/* <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
                     <Link href="/exercises" className="w-full">
                       <ListItemButton
                         sx={{ textAlign: "left", padding: "0 4rem" }}
@@ -204,7 +205,7 @@ const Header: React.FC = () => {
                         <ListItemText disableTypography primary={"Exercises"} />
                       </ListItemButton>
                     </Link>
-                  </ListItem>
+                  </ListItem> */}
                 </List>
               )}
               {role && role === "user" && (
@@ -231,7 +232,7 @@ const Header: React.FC = () => {
                       </ListItemButton>
                     </Link>
                   </ListItem>
-                  <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
+                  {/* <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
                     <Link href="/progress" className="w-full">
                       <ListItemButton
                         sx={{ textAlign: "left", padding: "0 4rem" }}
@@ -266,7 +267,7 @@ const Header: React.FC = () => {
                         <ListItemText disableTypography primary={"Rewards"} />
                       </ListItemButton>
                     </Link>
-                  </ListItem>
+                  </ListItem> */}
                 </List>
               )}
             </Box>

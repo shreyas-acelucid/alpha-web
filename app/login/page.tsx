@@ -4,9 +4,14 @@ import Link from "next/link";
 import InputWrapper from "../components/common/InputWrapper";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { setRole, setToken } from "../utils/helpers";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { loginUser } from "../hooks/useAuth";
 
 const LogIn: NextPage = () => {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -15,10 +20,18 @@ const LogIn: NextPage = () => {
       return;
     } else {
       const data = new FormData(event.currentTarget);
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
+      login(data.get("email") as string, data.get("password") as string);
+    }
+  };
+
+  const login = async (email: string, password: string) => {
+    try {
+      const tokenResponse = await loginUser({ email, password });
+      setToken(tokenResponse);
+      setRole('user');
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error("Login failed");
     }
   };
 
@@ -77,7 +90,7 @@ const LogIn: NextPage = () => {
                   placeholder="Enter your password"
                   minLength={3}
                   // onChange={(e) => setFullName(e.target.value.trimStart())}
-                  maxLength={16}
+                  maxLength={50}
                 />
               </InputWrapper>
               <div className="text-center">

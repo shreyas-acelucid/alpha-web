@@ -134,20 +134,20 @@ const Index: NextPage = () => {
                     <TableCell>
                       {new Date(plan.dateTime).toLocaleString()}
                     </TableCell>
-                    <TableCell>{plan.item.itemName}</TableCell>
+                    <TableCell>{plan.item?.itemName}</TableCell>
                     <TableCell>
-                      {plan.item.portionSizeNumber} {plan.item.portionQuantity}
+                      {plan.item?.portionSizeNumber} {plan.item?.portionQuantity}
                     </TableCell>
-                    <TableCell>{plan.item.caloriesPerServing}</TableCell>
-                    <TableCell>{plan.item.dietaryPreference}</TableCell>
-                    <TableCell>{plan.item.nutritionContent.iron}</TableCell>
-                    <TableCell>{plan.item.nutritionContent.fiber}</TableCell>
-                    <TableCell>{plan.item.nutritionContent.vitaminC}</TableCell>
+                    <TableCell>{plan.item?.caloriesPerServing}</TableCell>
+                    <TableCell>{plan.item?.dietaryPreference}</TableCell>
+                    <TableCell>{plan.item?.nutritionContent.iron}</TableCell>
+                    <TableCell>{plan.item?.nutritionContent.fiber}</TableCell>
+                    <TableCell>{plan.item?.nutritionContent.vitaminC}</TableCell>
                     <TableCell>
-                      {plan.item.isRecipe ? (
+                      {plan.item?.isRecipe ? (
                         <Button
                           onClick={() => {
-                            setDialogData(plan.item.recipeDescription);
+                            setDialogData(plan.item?.recipeDescription ?? '');
                             setViewRecipe(true);
                           }}
                         >

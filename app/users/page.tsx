@@ -459,12 +459,12 @@ const Index: NextPage = () => {
                     <TableCell>
                       {new Date(plan.dateTime).toLocaleString()}
                     </TableCell>
-                    <TableCell>{plan.item.itemName}</TableCell>
+                    <TableCell>{plan.item?.itemName}</TableCell>
                     <TableCell>
-                      {plan.item.portionSizeNumber} {plan.item.portionQuantity}
+                      {plan.item?.portionSizeNumber} {plan.item?.portionQuantity}
                     </TableCell>
-                    <TableCell>{plan.item.caloriesPerServing}</TableCell>
-                    <TableCell>{plan.item.isRecipe ? "Yes" : "No"}</TableCell>
+                    <TableCell>{plan.item?.caloriesPerServing}</TableCell>
+                    <TableCell>{plan.item?.isRecipe ? "Yes" : "No"}</TableCell>
                     <TableCell>{plan.isCompleted ? "Yes" : "No"}</TableCell>
                     <TableCell>
                       <Button onClick={() => deletePlan(plan.id)}>

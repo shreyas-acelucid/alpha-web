@@ -49,7 +49,12 @@ const Index: NextPage = () => {
   const fetchDietPlans = async (userId: string) => {
     try {
       const response = await getDietPlanbyUserId({ userId });
-      if (response) setDietPlans(response);
+      if (response) {
+        const filteredPlans = response.filter(
+          (plan: any) => plan.item !== null
+        );
+        setDietPlans(filteredPlans);
+      }
     } catch (error) {
       toast.error("Fetch plans failed");
     }
@@ -98,7 +103,8 @@ const Index: NextPage = () => {
         <>
           <div className="mb-8">
             <Button onClick={toggleSortOrder}>
-              Sort by Date: {sortOrder === "asc" ? "Oldest to Newest" : "Newest to Oldest"}
+              Sort by Date:{" "}
+              {sortOrder === "asc" ? "Oldest to Newest" : "Newest to Oldest"}
             </Button>
           </div>
           <TableContainer component={Paper}>

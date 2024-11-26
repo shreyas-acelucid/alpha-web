@@ -67,7 +67,12 @@ const Index: NextPage = () => {
   const fetchDietPlans = async () => {
     try {
       const response = await getDietPlanbyUserId({ userId });
-      if (response) setDietPlans(response);
+      if (response) {
+        const filteredPlans = response.filter(
+          (plan: any) => plan.item !== null
+        );
+        setDietPlans(filteredPlans);
+      }
     } catch (error) {
       toast.error("Fetch plans failed");
       setViewPlans(false);
@@ -85,7 +90,7 @@ const Index: NextPage = () => {
         isCompleted: false,
       });
       if (response) {
-        toast.success("Added day plan");
+        toast.success("Added diet plan");
       }
     } catch (error) {
       console.log("Fetch plans failed");

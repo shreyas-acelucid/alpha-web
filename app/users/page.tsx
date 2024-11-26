@@ -1,6 +1,6 @@
 "use client";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useAPI from "../hooks/useAPI";
 import toast from "react-hot-toast";
 import Table from "@mui/material/Table";
@@ -31,8 +31,13 @@ const Index: NextPage = () => {
   const [items, setItems] = useState<any[]>([]);
   const [dietPlans, setDietPlans] = useState<any[]>([]);
   const [userId, setUserId] = useState<string>("");
-  const { getUsers, getAllItems, getDietPlanbyUserId, createDietPlan, deletePlanById } =
-    useAPI();
+  const {
+    getUsers,
+    getAllItems,
+    getDietPlanbyUserId,
+    createDietPlan,
+    deletePlanById,
+  } = useAPI();
   const [value, setValue] = useState<Dayjs | null>(dayjs("2022-04-17T15:30"));
   const [itemId, setItemId] = useState<string>("");
   const [step, setStep] = useState<number>(0);
@@ -187,6 +192,18 @@ const Index: NextPage = () => {
     }
   };
 
+  const viewRef = useRef<HTMLDivElement | null>(null);
+
+  const handleScrolltoPlans = () => {
+    viewRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const itemRef = useRef<HTMLDivElement | null>(null);
+
+  const handleScrolltoItems = () => {
+    itemRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className="container !mb-12">
       <p className="my-8 text-3xl font-bold">All registered users</p>
@@ -296,14 +313,16 @@ const Index: NextPage = () => {
                   <div className="flex flex-row gap-2">
                     <Button
                       onClick={() => {
-                        setUserId(row.id), setStep(1);
+                        setUserId(row.id), setStep(1), handleScrolltoItems();
                       }}
                     >
                       Add
                     </Button>
                     <Button
                       onClick={() => {
-                        setUserId(row.id), setViewPlans(true);
+                        setUserId(row.id),
+                          setViewPlans(true),
+                          handleScrolltoPlans();
                       }}
                     >
                       View
@@ -317,7 +336,10 @@ const Index: NextPage = () => {
       </TableContainer>
       {step == 1 && userId && items.length > 0 && (
         <>
-          <div className="flex flex-row justify-between items-center">
+          <div
+            className="flex flex-row justify-between items-center"
+            ref={itemRef}
+          >
             <p className="my-8 text-2xl font-bold">Select an item to add</p>
             <Button onClick={() => setStep(0)}>Back</Button>
           </div>
@@ -400,7 +422,10 @@ const Index: NextPage = () => {
       )}
       {viewPlans && dietPlans.length > 0 && (
         <>
-          <div className="flex flex-row justify-between items-center">
+          <div
+            className="flex flex-row justify-between items-center"
+            ref={viewRef}
+          >
             <p className="my-8 text-2xl font-bold">Diet Plans Added for user</p>
             <Button
               onClick={() => {

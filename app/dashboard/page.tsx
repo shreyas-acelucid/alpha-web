@@ -77,16 +77,40 @@ const Index: NextPage = () => {
     }
   }, []);
 
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const sortedPlans = [...dietPlans].sort((a, b) => {
+    const dateA = new Date(a.dateTime);
+    const dateB = new Date(b.dateTime);
+    return sortOrder === "asc"
+      ? dateA.getTime() - dateB.getTime()
+      : dateB.getTime() - dateA.getTime();
+  });
+
+  const toggleSortOrder = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  };
+
   return (
     <section className="container !mb-12">
       <p className="my-8 text-3xl font-bold">All Diet Plans</p>
       {dietPlans.length > 0 ? (
         <>
+          <div className="mb-8">
+            <Button onClick={toggleSortOrder}>
+              Sort by Date: {sortOrder === "asc" ? "Oldest to Newest" : "Newest to Oldest"}
+            </Button>
+          </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 800 }} aria-label="plans table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Date/Time</TableCell>
+                  <TableCell
+                    onClick={toggleSortOrder}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Date/Time {sortOrder === "asc" ? "↑" : "↓"}
+                  </TableCell>
                   <TableCell>Item Name</TableCell>
                   <TableCell>Portion Size</TableCell>
                   <TableCell>Calories</TableCell>
@@ -99,7 +123,7 @@ const Index: NextPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dietPlans.map((plan) => (
+                {sortedPlans.map((plan) => (
                   <TableRow key={plan.id}>
                     <TableCell>
                       {new Date(plan.dateTime).toLocaleString()}

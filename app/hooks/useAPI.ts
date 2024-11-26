@@ -58,13 +58,28 @@ const useAPI = () => {
       data,
     }) as Promise<any>;
   };
-  const completeDietPlanbyUserId = async (planId: string, data: { userId: string}) => {
+
+  const completeDietPlanbyUserId = async (
+    planId: string,
+    data: { userId: string }
+  ) => {
     return http(`/users/updateDietPlanCompletedById/${planId}`, {
       method: "PUT",
       data,
     }) as Promise<any>;
   };
-  
+
+  const deleteItemById = async (itemId: string) => {
+    return http(`/dietitian/deleteItemById/${itemId}`, {
+      method: "DELETE",
+    }) as Promise<any>;
+  };
+
+  const deletePlanById = async (itemId: string) => {
+    return http(`/dietitian/deleteDietPlanById/${itemId}`, {
+      method: "DELETE",
+    }) as Promise<any>;
+  };
 
   return {
     getUsers,
@@ -73,7 +88,9 @@ const useAPI = () => {
     getAllItems,
     createItem,
     getDietPlanbyUserId,
-    completeDietPlanbyUserId
+    completeDietPlanbyUserId,
+    deleteItemById,
+    deletePlanById
   };
 };
 

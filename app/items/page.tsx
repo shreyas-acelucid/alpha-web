@@ -28,7 +28,7 @@ import InputWrapper from "../components/common/InputWrapper";
 
 const Index: NextPage = () => {
   const [items, setItems] = useState<any[]>([]);
-  const { getAllItems, createItem } = useAPI();
+  const { getAllItems, createItem, deleteItemById } = useAPI();
   const [viewAddItem, setViewAddItem] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -99,6 +99,18 @@ const Index: NextPage = () => {
     }
   };
 
+  const deleteItem = async (id: string) => {
+    try {
+      const response = await deleteItemById(id);
+      if (response) {
+        toast.success("Deleted Successfully");
+        fetchItems();
+      }
+    } catch (error) {
+      toast.error("Fetch items failed");
+    }
+  };
+
   useEffect(() => {
     fetchItems();
   }, []);
@@ -124,6 +136,7 @@ const Index: NextPage = () => {
                   <TableCell>Fiber</TableCell>
                   <TableCell>Vitamin C</TableCell>
                   <TableCell>Is Recipe</TableCell>
+                  <TableCell>Delete Item</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -152,6 +165,11 @@ const Index: NextPage = () => {
                       ) : (
                         "No"
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Button onClick={() => deleteItem(item.id)}>
+                        Delete
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -345,7 +363,11 @@ const Index: NextPage = () => {
               </FormControl>
             </InputWrapper>
             {isRecipe && (
-              <InputWrapper id="description" label="Recipe Description" required>
+              <InputWrapper
+                id="description"
+                label="Recipe Description"
+                required
+              >
                 <textarea
                   id="description"
                   name="description"

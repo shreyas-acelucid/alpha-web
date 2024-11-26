@@ -31,7 +31,7 @@ const Index: NextPage = () => {
   const [items, setItems] = useState<any[]>([]);
   const [dietPlans, setDietPlans] = useState<any[]>([]);
   const [userId, setUserId] = useState<string>("");
-  const { getUsers, getAllItems, getDietPlanbyUserId, createDietPlan } =
+  const { getUsers, getAllItems, getDietPlanbyUserId, createDietPlan, deletePlanById } =
     useAPI();
   const [value, setValue] = useState<Dayjs | null>(dayjs("2022-04-17T15:30"));
   const [itemId, setItemId] = useState<string>("");
@@ -174,6 +174,18 @@ const Index: NextPage = () => {
       user.physical_activities_preferred.join(", ")
     )
   );
+
+  const deletePlan = async (id: string) => {
+    try {
+      const response = await deletePlanById(id);
+      if (response) {
+        toast.success("Deleted Successfully");
+        fetchDietPlans();
+      }
+    } catch (error) {
+      toast.error("Fetch items failed");
+    }
+  };
 
   return (
     <section className="container !mb-12">
@@ -408,6 +420,7 @@ const Index: NextPage = () => {
                   <TableCell>Calories</TableCell>
                   <TableCell>Is Recipe</TableCell>
                   <TableCell>Is Completed</TableCell>
+                  <TableCell>Delete Plan</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -423,6 +436,11 @@ const Index: NextPage = () => {
                     <TableCell>{plan.item.caloriesPerServing}</TableCell>
                     <TableCell>{plan.item.isRecipe ? "Yes" : "No"}</TableCell>
                     <TableCell>{plan.isCompleted ? "Yes" : "No"}</TableCell>
+                    <TableCell>
+                      <Button onClick={() => deletePlan(plan.id)}>
+                        Delete
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

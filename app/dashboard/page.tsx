@@ -90,8 +90,12 @@ const Index: NextPage = () => {
                   <TableCell>Item Name</TableCell>
                   <TableCell>Portion Size</TableCell>
                   <TableCell>Calories</TableCell>
+                  <TableCell>Dietary Preference</TableCell>
+                  <TableCell>Iron</TableCell>
+                  <TableCell>Fiber</TableCell>
+                  <TableCell>Vitamin C</TableCell>
                   <TableCell>Is Recipe</TableCell>
-                  <TableCell>Is Completed</TableCell>
+                  <TableCell>Plan Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -105,6 +109,10 @@ const Index: NextPage = () => {
                       {plan.item.portionSizeNumber} {plan.item.portionQuantity}
                     </TableCell>
                     <TableCell>{plan.item.caloriesPerServing}</TableCell>
+                    <TableCell>{plan.item.dietaryPreference}</TableCell>
+                    <TableCell>{plan.item.nutritionContent.iron}</TableCell>
+                    <TableCell>{plan.item.nutritionContent.fiber}</TableCell>
+                    <TableCell>{plan.item.nutritionContent.vitaminC}</TableCell>
                     <TableCell>
                       {plan.item.isRecipe ? (
                         <Button
@@ -121,7 +129,7 @@ const Index: NextPage = () => {
                     </TableCell>
                     <TableCell>
                       {plan.isCompleted ? (
-                        <Button disabled>Yes</Button>
+                        <Button disabled>Completed</Button>
                       ) : (
                         <Button onClick={() => markComplete(plan.id)}>
                           Mark complete

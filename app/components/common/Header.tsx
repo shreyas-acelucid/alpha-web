@@ -25,9 +25,9 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { getRole, getToken, logout } from "@/app/utils/helpers";
 import { jwtDecode } from "jwt-decode";
 import { usePathname, useRouter } from "next/navigation";
-import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import GradingIcon from "@mui/icons-material/Grading";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -87,7 +87,6 @@ const Header: React.FC = () => {
             </IconButton>
           )}
           <Typography
-            // variant="h6"
             component="div"
             sx={{
               flexGrow: 1,
@@ -108,8 +107,14 @@ const Header: React.FC = () => {
             </Link>
           </Typography>
           <Box className="flex flex-row gap-4 items-center">
-            {token ? (
-              <Avatar sx={{ width: "36px", height: "36px" }}></Avatar>
+            {token && role === "user" ? (
+              <Link href="/profile">
+                <Avatar sx={{ width: "36px", height: "36px" }}></Avatar>
+              </Link>
+            ) : token && role === "diet" ? (
+              <>
+                <p className="text-2xl font-bold text-dark">ADMIN</p>
+              </>
             ) : (
               <>
                 <Link href="/login">
@@ -232,19 +237,19 @@ const Header: React.FC = () => {
                       </ListItemButton>
                     </Link>
                   </ListItem>
-                  {/* <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
-                    <Link href="/progress" className="w-full">
+                  <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
+                    <Link href="/profile" className="w-full">
                       <ListItemButton
                         sx={{ textAlign: "left", padding: "0 4rem" }}
                       >
-                        <EventRepeatIcon
+                        <AccountCircleOutlinedIcon
                           sx={{ color: "var(--color-primary-700)" }}
                         />
-                        <ListItemText disableTypography primary={"Progress"} />
+                        <ListItemText disableTypography primary={"Profile"} />
                       </ListItemButton>
                     </Link>
                   </ListItem>
-                  <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
+                  {/* <ListItem sx={{ paddingTop: "4px", paddingBottom: "4px" }}>
                     <Link href="/feedback" className="w-full">
                       <ListItemButton
                         sx={{ textAlign: "left", padding: "0 4rem" }}

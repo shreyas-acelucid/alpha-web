@@ -31,10 +31,10 @@ const SignUp: NextPage = () => {
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [weight, setWeight] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
-  const [bmi, setBmi] = useState<number>(0);
-  const [sleepDuration, setSleepDuration] = useState<number>(0);
+  const [weight, setWeight] = useState<number | null>(0);
+  const [height, setHeight] = useState<number | null>(0);
+  const [bmi, setBmi] = useState<number | null>(0);
+  const [sleepDuration, setSleepDuration] = useState<number | null>(0);
   const [dailyActivityDuration, setDailyActivityDuration] =
     useState<string>("");
 
@@ -83,7 +83,12 @@ const SignUp: NextPage = () => {
         created_by: "user",
         updated_by: "user",
       });
-      if (userResponse) router.push("/login");
+      if (userResponse) {
+        toast.success("Signed up successfully");
+        setTimeout(() => {
+          router.push("/login");
+        }, 3000);
+      }
     } catch (error) {
       toast.error("Sign up failed");
     }
@@ -397,10 +402,14 @@ const SignUp: NextPage = () => {
                       name="weight"
                       autoComplete="off"
                       required
-                      placeholder="Enter your weight"
+                      placeholder="Enter your weight in kg"
                       inputMode="numeric"
-                      value={weight}
-                      onChange={(e) => setWeight(Number(e.target.value))}
+                      value={weight || ""}
+                      onChange={(e) =>
+                        setWeight(
+                          e.target.value === "" ? null : Number(e.target.value)
+                        )
+                      }
                     />
                   </InputWrapper>
                 </div>
@@ -414,10 +423,14 @@ const SignUp: NextPage = () => {
                       name="height"
                       autoComplete="off"
                       required
-                      placeholder="Enter your height"
+                      placeholder="Enter your height in cm"
                       inputMode="numeric"
-                      value={height}
-                      onChange={(e) => setHeight(Number(e.target.value))}
+                      value={height || ""}
+                      onChange={(e) =>
+                        setHeight(
+                          e.target.value === "" ? null : Number(e.target.value)
+                        )
+                      }
                     />
                   </InputWrapper>
                 </div>
@@ -431,8 +444,12 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your BMI"
                       inputMode="numeric"
-                      value={bmi}
-                      onChange={(e) => setBmi(Number(e.target.value))}
+                      value={bmi || ""}
+                      onChange={(e) =>
+                        setBmi(
+                          e.target.value === "" ? null : Number(e.target.value)
+                        )
+                      }
                     />
                   </InputWrapper>
                 </div>
@@ -452,8 +469,12 @@ const SignUp: NextPage = () => {
                       required
                       placeholder="Enter your sleeping duration"
                       inputMode="numeric"
-                      value={sleepDuration}
-                      onChange={(e) => setSleepDuration(Number(e.target.value))}
+                      value={sleepDuration || ""}
+                      onChange={(e) =>
+                        setSleepDuration(
+                          e.target.value === "" ? null : Number(e.target.value)
+                        )
+                      }
                     />
                   </InputWrapper>
                 </div>

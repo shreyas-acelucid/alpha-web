@@ -16,6 +16,15 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Index: NextPage = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -28,6 +37,10 @@ const Index: NextPage = () => {
   const [itemId, setItemId] = useState<string>("");
   const [step, setStep] = useState<number>(0);
   const [viewPlans, setViewPlans] = useState<boolean>(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [viewRecipe, setViewRecipe] = useState<boolean>(false);
+  const [dialogData, setDialogData] = useState<any>(null);
 
   const fetchUsers = async () => {
     try {
@@ -93,6 +106,11 @@ const Index: NextPage = () => {
       month: "short",
       day: "numeric",
     });
+  };
+
+  const handleRecipeClose = () => {
+    setDialogData(null);
+    setViewRecipe(false);
   };
 
   const createData = (
@@ -320,7 +338,20 @@ const Index: NextPage = () => {
                     <TableCell>{item.nutritionContent.iron}</TableCell>
                     <TableCell>{item.nutritionContent.fiber}</TableCell>
                     <TableCell>{item.nutritionContent.vitaminC}</TableCell>
-                    <TableCell>{item.isRecipe ? "Yes" : "No"}</TableCell>
+                    <TableCell>
+                      {item.isRecipe ? (
+                        <Button
+                          onClick={() => {
+                            setDialogData(item.recipeDescription);
+                            setViewRecipe(true);
+                          }}
+                        >
+                          View
+                        </Button>
+                      ) : (
+                        "No"
+                      )}
+                    </TableCell>
                     <TableCell>
                       <Button
                         onClick={() => {
@@ -398,6 +429,29 @@ const Index: NextPage = () => {
           </TableContainer>
         </>
       )}
+      <Dialog
+        fullScreen={fullScreen}
+        open={viewRecipe}
+        onClose={handleRecipeClose}
+        PaperProps={{
+          sx: { borderRadius: { xs: "0px", md: "22px" }, maxWidth: "43%" },
+        }}
+        scroll={"body"}
+        fullWidth={true}
+      >
+        <DialogTitle>
+          <div className="flex flex-row justify-between items-center">
+            <p className="text-2xl font-semibold">Recipe</p>
+            <IconButton sx={{ color: "inherit" }} onClick={handleRecipeClose}>
+              <CloseIcon />
+            </IconButton>
+          </div>
+        </DialogTitle>
+        <hr />
+        <DialogContent sx={{ fontSize: "16px" }}>
+          <p className="my-8 text-lg font-semibold">{dialogData}</p>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

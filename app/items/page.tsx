@@ -36,8 +36,10 @@ const Index: NextPage = () => {
   const [viewRecipe, setViewRecipe] = useState<boolean>(false);
 
   const [itemName, setItemName] = useState<string>("");
-  const [caloriesPerServing, setCaloriesPerServing] = useState<number>(0);
-  const [portionSizeNumber, setPortionSizeNumber] = useState<number>(0);
+  const [caloriesPerServing, setCaloriesPerServing] = useState<number | null>(
+    0
+  );
+  const [portionSizeNumber, setPortionSizeNumber] = useState<number | null>(0);
   const [portionQuantity, setPortionQuantity] = useState<string>("");
   const [dietaryPreference, setDietaryPreference] = useState<string>("");
   const [iron, setIron] = useState<string>("");
@@ -206,25 +208,12 @@ const Index: NextPage = () => {
                 required
                 placeholder="Enter calories per serving"
                 inputMode="numeric"
-                value={caloriesPerServing}
-                onChange={(e) => setCaloriesPerServing(Number(e.target.value))}
-              />
-            </InputWrapper>
-            <InputWrapper
-              id="portionSizeNumber"
-              label="Portion Quantity"
-              required
-            >
-              <input
-                type="number"
-                id="portionSizeNumber"
-                name="portionSizeNumber"
-                autoComplete="off"
-                required
-                placeholder="Enter portion quantity"
-                inputMode="numeric"
-                value={portionSizeNumber}
-                onChange={(e) => setPortionSizeNumber(Number(e.target.value))}
+                value={caloriesPerServing || ""}
+                onChange={(e) =>
+                  setCaloriesPerServing(
+                    e.target.value === "" ? null : Number(e.target.value)
+                  )
+                }
               />
             </InputWrapper>
             <InputWrapper id="portionQuantity" label="Portion Unit" required>
@@ -244,6 +233,27 @@ const Index: NextPage = () => {
                 <option value="ml">ml</option>
                 <option value="piece">piece</option>
               </select>
+            </InputWrapper>
+            <InputWrapper
+              id="portionSizeNumber"
+              label="Portion Quantity"
+              required
+            >
+              <input
+                type="number"
+                id="portionSizeNumber"
+                name="portionSizeNumber"
+                autoComplete="off"
+                required
+                placeholder="Enter portion quantity"
+                inputMode="numeric"
+                value={portionSizeNumber || ""}
+                onChange={(e) =>
+                  setPortionSizeNumber(
+                    e.target.value === "" ? null : Number(e.target.value)
+                  )
+                }
+              />
             </InputWrapper>
             <InputWrapper
               id="dietaryPreference"
@@ -335,13 +345,13 @@ const Index: NextPage = () => {
               </FormControl>
             </InputWrapper>
             {isRecipe && (
-              <InputWrapper id="name" label="Name" required>
+              <InputWrapper id="description" label="Recipe Description" required>
                 <textarea
-                  id="name"
-                  name="name"
+                  id="description"
+                  name="description"
                   autoComplete="off"
                   required
-                  placeholder="Enter your name"
+                  placeholder="Enter description"
                   rows={4}
                   value={recipeDescription ?? ""}
                   onChange={(e) =>

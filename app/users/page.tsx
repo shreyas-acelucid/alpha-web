@@ -377,9 +377,10 @@ const Index: NextPage = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DateTimePicker", "DateTimePicker"]}>
               <DateTimePicker
-                label="Controlled picker"
+                label="Select date and time of plan"
                 value={value}
-                onChange={(newValue) => submitPlan(newValue)}
+                onChange={(newValue) => setValue(newValue)}
+                onAccept={(newValue) => submitPlan(newValue)}
               />
             </DemoContainer>
           </LocalizationProvider>
